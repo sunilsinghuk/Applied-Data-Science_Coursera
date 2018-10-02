@@ -129,21 +129,21 @@ The requests returns a JSON object which can then be queried for the details req
 
 ```json
 {  
-   'city':'Chicago',
-   'lng':-87.62323915831546,
-   'crossStreet':'btwn Columbus Dr & Michigan Ave',
-   'neighborhood':'The Loop',
-   'postalCode':'60601',
-   'cc':'US',
-   'formattedAddress':[  
-      '201 E Randolph St (btwn Columbus Dr & Michigan Ave)',
-      'Chicago, IL 60601',
-      'United States'
+   "city":"Chicago",
+   "lng":-87.62323915831546,
+   "crossStreet":"btwn Columbus Dr & Michigan Ave",
+   "neighborhood":"The Loop",
+   "postalCode":"60601",
+   "cc":"US",
+   "formattedAddress":[  
+      "201 E Randolph St (btwn Columbus Dr & Michigan Ave)",
+      "Chicago, IL 60601",
+      "United States"
    ],
-   'state':'IL',
-   'address':'201 E Randolph St',
-   'lat':41.8826616030636,
-   'country':'United States'
+   "state":"IL",
+   "address":"201 E Randolph St",
+   "lat":41.8826616030636,
+   "country":"United States"
 }
 ```
 
@@ -175,49 +175,49 @@ We are now ready to get the top 5 restaurents within 250 meters of each of the t
 
 ```json
   {  
-     'referralId':'v-1538424503',
-     'hasPerk':False,
-     'venuePage':{  
-        'id':'135548807'
+     "referralId":"v-1538424503",
+     "hasPerk":False,
+     "venuePage":{  
+        "id":"135548807"
      },
-     'id':'55669b9b498ee34e5249ea61',
-     'location':{  
-        'labeledLatLngs':[  
+     "id":"55669b9b498ee34e5249ea61",
+     "location":{  
+        "labeledLatLngs":[  
            {  
-              'label':'display',
-              'lng':-87.62460021795313,
-              'lat':41.88169538551873
+              "label":"display",
+              "lng":-87.62460021795313,
+              "lat":41.88169538551873
            }
         ],
-        'crossStreet':'btwn E Madison & E Monroe St',
-        'postalCode':'60603',
-        'formattedAddress':[  
-           '12 S Michigan Ave (btwn E Madison & E Monroe St)',
-           'Chicago, IL 60603',
-           'United States'
+        "crossStreet":"btwn E Madison & E Monroe St",
+        "postalCode":"60603",
+        "formattedAddress":[  
+           "12 S Michigan Ave (btwn E Madison & E Monroe St)",
+           "Chicago, IL 60603",
+           "United States"
         ],
-        'distance':155,
-        'city':'Chicago',
-        'lng':-87.62460021795313,
-        'neighborhood':'The Loop',
-        'cc':'US',
-        'state':'IL',
-        'address':'12 S Michigan Ave',
-        'lat':41.88169538551873,
-        'country':'United States'
+        "distance":155,
+        "city":"Chicago",
+        "lng":-87.62460021795313,
+        "neighborhood":"The Loop",
+        "cc":"US",
+        "state":"IL",
+        "address":"12 S Michigan Ave",
+        "lat":41.88169538551873,
+        "country":"United States"
      },
-     'name':"Cindy's",
-     'categories':[  
+     "name":"Cindy"s",
+     "categories":[  
         {  
-           'pluralName':'Gastropubs',
-           'id':'4bf58dd8d48988d155941735',
-           'name':'Gastropub',
-           'primary':True,
-           'icon':{  
-              'prefix':'https://ss3.4sqi.net/img/categories_v2/food/gastropub_',
-              'suffix':'.png'
+           "pluralName":"Gastropubs",
+           "id":"4bf58dd8d48988d155941735",
+           "name":"Gastropub",
+           "primary":True,
+           "icon":{  
+              "prefix":"https://ss3.4sqi.net/img/categories_v2/food/gastropub_",
+              "suffix":".png"
            },
-           'shortName':'Gastropub'
+           "shortName":"Gastropub"
         }
      ]
   },
