@@ -53,6 +53,15 @@ A high level approach is as follows:
 4. Using this additional geographical data the top nearby restaurents are selects
 5. The historical crime within a predetermined distance of all venues are obtained
 6. A map is presented to the to the traveller showing the selected venues and crime statistics of the area. 
+7. The future probability of a crime happening near or around the selected top sites is also presented to the user
+
+There are many data science aspect of this project including:
+
+1. Data Acquisition
+2. Data Cleansing
+3. Data Analysis
+4. Machine Learning
+5. Prediction
 
 Now that the conference is over the Data Sceintist can explore Chigago and feel much safer.
 
