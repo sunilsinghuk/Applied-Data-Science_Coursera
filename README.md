@@ -60,6 +60,8 @@ Now that the conference is over the Data Sceintist can explore Chigago and feel 
 
 # Section 2: Methodology
 
+## Data Description
+
 In this section, I will describe the data used to solve the problem as described previously. 
 
 As noted below in the Further Development Section, it is possible to attempt quite complex and sophisticated scenarios when approaching this problem. However, given the size of the project and for simplicity only the following scenario will be addressed:
