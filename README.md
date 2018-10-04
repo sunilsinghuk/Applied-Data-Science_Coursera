@@ -301,7 +301,7 @@ Using just the data in this DataFrame we will be able to generate maps displayin
 
 
 
-###Chicago Crime Data
+### Chicago Crime Data
 
 This dataset can be download from the [Chicago Data Portal](https://data.cityofchicago.org/) and reflects reported incidents of crime (with the exception of murders where data exists for each victim) that occurred in the City of Chicago in the last year, minus the most recent seven days. A full desription of the data is available on the site.
 
