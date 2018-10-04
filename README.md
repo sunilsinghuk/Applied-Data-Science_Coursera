@@ -55,6 +55,15 @@ A high level approach is as follows:
 6. A map is presented to the to the traveller showing the selected venues and crime statistics of the area. 
 7. The future probability of a crime happening near or around the selected top sites is also presented to the user
 
+#### Who is this solution targeted at
+
+This solution is targeted at the cautious traveller. The want to see all the main sites of a city that they have never visited before but at the same time, for whatever reaons unknown, they want to be able to do all that they can to make sure that they stay clear of trouble i.e. is it safe to visit this venue and this restaurant at 4:00 pm in the afternoon.
+
+Some examples of envisioned users include:
+
+* A single white female traveller
+* An elderly traveller that has had previous back experiences when travelling
+
 There are many data science aspect of this project including:
 
 1. Data Acquisition
@@ -123,7 +132,7 @@ A sample of the extracted data is given below:
 | 4f2a0d0ae4b0837d0c4c2bc3 | 9.6   | Deli / Bodega | Publican Quality Meats       | /v/publican-quality-meats/4f2a0d0ae4b0837d0c4c... |
 | 4aa05f40f964a520643f20e3 | 9.6   | Theater       | The Chicago Theatre          | /v/the-chicago-theatre/4aa05f40f964a520643f20e3   |
 
-
+We will have a closer look at this data gather later on when the supplemental geographical data has been added.
 
 ## Supplemental Geographical Data
 
@@ -188,7 +197,42 @@ A sample of the final FourSquare Top Sites data is shown below:
 | 4f2a0d0ae4b0837d0c4c2bc3 | 9.6   | Deli / Bodega | Publican Quality Meats       | 825 W Fulton Market     | 60607      | Chicago | /v/publican-quality-meats/4f2a0d0ae4b0837d0c4c... | 41.886642 | -87.648718 |
 | 4aa05f40f964a520643f20e3 | 9.6   | Theater       | The Chicago Theatre          | 175 N State St          | 60601      | Chicago | /v/the-chicago-theatre/4aa05f40f964a520643f20e3   | 41.885578 | -87.627286 |
 
-We are now ready to get the top 5 restaurents within 250 meters of each of the top sites.
+#### Data Analysis and Visualisation
+
+An initial look at the data shows that there are 30 rows of data [as expected] each with 10 attributes. The variable types are all correct except the Venue Rating or Score which will be converted to a float. After converting the score column to a float it can clearly be seen that we have the top venues with a mean of `9.532`.
+
+```python
+df_top_venues.shape
+(30, 10)
+
+df_top_venues.dtypes
+id             object
+score          object
+category       object
+name           object
+address        object
+postalcode     object
+city           object
+href           object
+latitude      float64
+longitude     float64
+dtype: object
+    
+df_top_venues.score.describe()
+count    30.000000
+mean      9.523333
+std       0.072793
+min       9.400000
+25%       9.500000
+50%       9.500000
+75%       9.600000
+max       9.700000
+Name: score, dtype: float64
+```
+
+
+
+We are now ready to get the top restaurents within 500 meters of each of the top sites.
 
 ## FourSquare Restaurent Recommendation Data
 
@@ -280,8 +324,6 @@ From this JSON the following attributes are extraced and added to the Dataframe:
 
 The only piece of data that is missing is the Score or Rating of the Restaurant. To get this we need to make another FourSquare API query using the id of the Restaurant:
 
-
-
 ```python
 # Get the restaurant score and href
 rest_url = 'https://api.foursquare.com/v2/venues/{}?client_id={}&client_secret={}&v={}'.format(
@@ -293,8 +335,6 @@ rest_url = 'https://api.foursquare.com/v2/venues/{}?client_id={}&client_secret={
 result = requests.get(rest_url).json()
 rest_score = result['response']['venue']['rating']
 ```
-
-
 Using just the data in this DataFrame we will be able to generate maps displaying the chosen Top List Venue and the best scored surrounding restaurants. A sample of this data is shown below:
 
 | id                       | score | category        | categoryID               | name                      | address           | postalcode | city    | latitude  | longitude  | venue_name      | venue_latitude | venue_longitude |
@@ -305,9 +345,85 @@ Using just the data in this DataFrame we will be able to generate maps displayin
 | 4e879cdc93adfd051d6d609e | 9.2   | Breakfast Spots | 4bf58dd8d48988d143941735 | Wildberry Pancakes & Cafe | 130 E Randolph St | 60601      | Chicago | 41.884599 | -87.623203 | Millennium Park | 41.882662      | -87.623239      |
 | 49d8159cf964a520a05d1fe3 | 8.5   | Pubs            | 4bf58dd8d48988d11b941735 | Miller's Pub              | 134 S Wabash Ave  | 60603      | Chicago | 41.879911 | -87.625972 | Millennium Park | 41.882662      | -87.623239      |
 
+Looking at the data we get an interesting insight into the range of restuarants that are included. From a list of 30 top venues only 28 actually had more than 10 to provide the user with a real choice. In total there were 387 restaurants found of which 240 were unique occuring only once in the data. There were 72 categories of restaurants. The mean score of all the restaurants wa `8.23` with a manimum value of `9.5` and a minimum value of `5.3`.  
+
+Coffee Shops (52) and Pizza Places (29) were the top two most frequently occurring categories but Pie Shops (9.4000) and French Restaurants (9.4000) were the restaurant categories with the highest average score.
+
+```python
+# What is the shape of the Restaurants DataFrame
+df_restaurant.shape
+(387, 13)
+
+# Get a count of the top venues that had more than 10 restaurant within 500 meters
+#  The number of unique restaurants
+#  The number of unique restaurant categories
+df_restaurant.venue_name.nunique()
+28
+df_restaurant.name.nunique()
+240
+df_restaurant.category.nunique()
+72
+
+# Look at the data types
+df_restaurant.dtypes
+id                  object
+score              float64
+category            object
+categoryID          object
+name                object
+address             object
+postalcode          object
+city                object
+latitude           float64
+longitude          float64
+venue_name          object
+venue_latitude     float64
+venue_longitude    float64
+dtype: object
+    
+# Describe the Score attribute
+df_restaurant.score.describe()
+count    387.000000
+mean       8.286563
+std        0.930138
+min        5.300000
+25%        7.800000
+50%        8.500000
+75%        9.000000
+max        9.500000
+Name: score, dtype: float64
+        
+df_restaurant.groupby('category')['name'].count().sort_values(ascending=False)[:10]
+category
+Coffee Shops                        52
+Pizza Places                        29
+Cafés                               24
+Bakeries                            15
+Burger Joints                       15
+Gastropubs                          15
+New American Restaurants            15
+Mexican Restaurants                 14
+Breakfast Spots                     13
+Fast Food Restaurants               13
 
 
-### Chicago Crime Data
+df_restaurant.groupby('category')['score'].mean().sort_values(ascending=False)[:10]
+category
+Pie Shops                           9.4000
+French Restaurants                  9.4000
+Molecular Gastronomy Restaurants    9.3000
+Filipino Restaurants                9.2000
+Cuban Restaurants                   9.1000
+Ice Cream Shops                     9.0625
+Mediterranean Restaurants           9.0600
+Korean Restaurants                  9.0000
+Latin American Restaurants          9.0000
+Fish & Chips Shops                  9.0000
+```
+
+
+
+## Chicago Crime Data
 
 This dataset can be download from the [Chicago Data Portal](https://data.cityofchicago.org/) and reflects reported incidents of crime (with the exception of murders where data exists for each victim) that occurred in the City of Chicago in the last year, minus the most recent seven days. A full desription of the data is available on the site.
 
@@ -372,7 +488,24 @@ This data was then processed as follows:
 5. Split Block into zip_code and street
 6. Verify that all rows have valid data
 
-#### Data Visualisation
+#### Data Analysis and Visualisation
+
+Now let's look at some of the attributes and statistics of the crime dataset.
+
+We will start by looking at the top three crimes and a total count for each crime type:
+
+```python
+# What Crimes are the 3 most commonly occuring ones 
+df[['primary_description', 'case']].groupby(
+    ['primary_description'], as_index=False).count().sort_values(
+    'case', ascending=False).head(3)
+```
+
+| primary_description | case  |
+| ------------------- | ----- |
+| THEFT               | 63629 |
+| BATTERY             | 49498 |
+| CRIMINAL DAMAGE     | 27980 |
 
 To get a better understanding of the data we will now visualise it. The number of crimes per month, day and hour were calculated:
 
@@ -382,8 +515,31 @@ To get a better understanding of the data we will now visualise it. The number o
 
 ![image-20181001162714277](./capstone_images/cases_hour.jpg)
 
+Looking at the top three crimes it is clearly visible that the occurances of theft rise gretly during daylight hours and particularly between the hours of 3:00 pm and 5:00 pm.
+
+![image-20181001162714277](./capstone_images/cases_hour_area.png)
+
+
 Unsuprisingly there little obvious variation in the number of crimes committed per month other than an apparent drop-off in February. There is a small increase in crime reported at the weekend, Saturday and
 Sunday, but nothing that couldbe considered significant. There is an expected fall-off in reported crime rates after midnight and before eight in the morning.
+
+Finally the crimes data for a single month, August, was super-imposed over a map of Chicago to visualise the distribution of that data:
+
+![image-20181001162714277](./capstone_images/markers.jpg)
+
+The higher frequency of the top two crimes can be easily seen. Red for Theft and Blue for Battery.
+
+Next the crimes were clustered:
+
+![image-20181001162714277](./capstone_images/clusters.jpg)
+
+Several obvious clusters of crime locations were visible, particularly in the center of Chicago.
+
+Finally a heat map of the August crimes was created:
+
+![image-20181001162714277](./capstone_images/heatmap.jpg)
+
+This reinforces the cluster chart where it can clearly be seen that the center of Chicago and the area around Oak Park have a high crime rate occurrence. It will be interesting to see later if there is a high probability of crime in these areas if one of the top listed venues are located in these areas.
 
 
 
