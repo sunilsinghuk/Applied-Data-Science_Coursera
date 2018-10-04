@@ -123,6 +123,8 @@ A sample of the extracted data is given below:
 | 4f2a0d0ae4b0837d0c4c2bc3 | 9.6   | Deli / Bodega | Publican Quality Meats       | /v/publican-quality-meats/4f2a0d0ae4b0837d0c4c... |
 | 4aa05f40f964a520643f20e3 | 9.6   | Theater       | The Chicago Theatre          | /v/the-chicago-theatre/4aa05f40f964a520643f20e3   |
 
+
+
 ###Supplemental Geographical Data
 
 Using the `id` field extracted from the HTML it is then possible to get further supplemental geographical details about each of the top sites from FourSquare using the following sample API call:
@@ -296,6 +298,8 @@ Using just the data in this DataFrame we will be able to generate maps displayin
 | 49e749fbf964a52086641fe3 | 9.1   | Gastropubs      | 4bf58dd8d48988d155941735 | The Gage                  | 24 S Michigan Ave | 60603      | Chicago | 41.881319 | -87.624642 | Millennium Park | 41.882662      | -87.623239      |
 | 4e879cdc93adfd051d6d609e | 9.2   | Breakfast Spots | 4bf58dd8d48988d143941735 | Wildberry Pancakes & Cafe | 130 E Randolph St | 60601      | Chicago | 41.884599 | -87.623203 | Millennium Park | 41.882662      | -87.623239      |
 | 49d8159cf964a520a05d1fe3 | 8.5   | Pubs            | 4bf58dd8d48988d11b941735 | Miller's Pub              | 134 S Wabash Ave  | 60603      | Chicago | 41.879911 | -87.625972 | Millennium Park | 41.882662      | -87.623239      |
+
+
 
 ###Chicago Crime Data
 
