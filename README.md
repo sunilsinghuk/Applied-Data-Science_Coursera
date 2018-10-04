@@ -1,5 +1,7 @@
 
 
+
+
 # Capstone Project - The Battle of Neighborhoods
 
 This file, and other associated files, make up my contribution to the final Peer Reviewed Assignment for the Coursera Capstone Project for Applied Data Science Capstone. This was my final module in the [IBM Data Science Professional Certificate](https://www.coursera.org/specializations/ibm-data-science-professional-certificate) programme.
@@ -171,7 +173,27 @@ We are now ready to get the top 5 restaurents within 250 meters of each of the t
 
 ### FourSquare Restaurent Recommendation Data
 
+Using the the list of all `id` values in the Top Sites DataFrame and the FourSquare `categoryID` that represents all food venues we now search for restaurants within a 500 meter radius.
 
+```python
+# Configure additional Search parameters
+categoryId = '4d4b7105d754a06374d81259'
+radius = 500
+limit = 15
+
+url = 'https://api.foursquare.com/v2/venues/search?client_id={}&client_secret={}&ll={},{}&v={}&categoryId={}&radius={}&limit={}'.format(
+    cfg['client_id'],
+    cfg['client_secret'],
+    ven_lat,
+    ven_long,
+    cfg['version'],
+    categoryId,
+    radius,
+    limit)
+
+results = requests.get(url).json()
+```
+The requests returns a JSON object which can then be queried for the restaurant details required. A sample restaurnt from the results returned is shown below:
 
 ```json
 {  
@@ -222,7 +244,47 @@ We are now ready to get the top 5 restaurents within 250 meters of each of the t
     ]
 },
 ```
+From this JSON the following attributes are extraced and added to the Dataframe:
 
+- Restaurant ID
+- Restaurant Category Name
+- Restaurant Category ID
+- Restaurant Nest_name
+- Restaurant Address
+- Restaurant Postalcode
+- Restaurant City
+- Restaurant Latitude
+- Restaurant Longitude
+- Venue Name
+- Venue Latitude
+- Venue Longitude
+
+The only piece of data that is missing is the Score or Rating of the Restaurant. To get this we need to make another FourSquare API query using the id of the Restaurant:
+
+
+
+```python
+# Get the restaurant score and href
+rest_url = 'https://api.foursquare.com/v2/venues/{}?client_id={}&client_secret={}&v={}'.format(
+    rest_id, 
+    cfg['client_id'],
+    cfg['client_secret'],
+    cfg['version'])
+
+result = requests.get(rest_url).json()
+rest_score = result['response']['venue']['rating']
+```
+
+
+Using just the data in this DataFrame we will be able to generate maps displaying the chosen Top List Venue and the best scored surrounding restaurants. A sample of this data is shown below:
+
+| id                       | score | category        | categoryID               | name                      | address           | postalcode | city    | latitude  | longitude  | venue_name      | venue_latitude | venue_longitude |
+| ------------------------ | ----- | --------------- | ------------------------ | ------------------------- | ----------------- | ---------- | ------- | --------- | ---------- | --------------- | -------------- | --------------- |
+| 55669b9b498ee34e5249ea61 | 9.2   | Gastropubs      | 4bf58dd8d48988d155941735 | Cindy's                   | 12 S Michigan Ave | 60603      | Chicago | 41.881695 | -87.624600 | Millennium Park | 41.882662      | -87.623239      |
+| 556509d6498e726bdec19fe9 | 8.4   | Burger Joints   | 4bf58dd8d48988d16c941735 | Shake Shack               | 12 S Michigan Ave | 60603      | Chicago | 41.881673 | -87.624455 | Millennium Park | 41.882662      | -87.623239      |
+| 49e749fbf964a52086641fe3 | 9.1   | Gastropubs      | 4bf58dd8d48988d155941735 | The Gage                  | 24 S Michigan Ave | 60603      | Chicago | 41.881319 | -87.624642 | Millennium Park | 41.882662      | -87.623239      |
+| 4e879cdc93adfd051d6d609e | 9.2   | Breakfast Spots | 4bf58dd8d48988d143941735 | Wildberry Pancakes & Cafe | 130 E Randolph St | 60601      | Chicago | 41.884599 | -87.623203 | Millennium Park | 41.882662      | -87.623239      |
+| 49d8159cf964a520a05d1fe3 | 8.5   | Pubs            | 4bf58dd8d48988d11b941735 | Miller's Pub              | 134 S Wabash Ave  | 60603      | Chicago | 41.879911 | -87.625972 | Millennium Park | 41.882662      | -87.623239      |
 
 ###Chicago Crime Data
 
