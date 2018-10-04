@@ -80,7 +80,7 @@ As noted below in the Further Development Section, it is possible to attempt qui
 3. Use the FourSquare API to get top restaurent recommendations closest to each of the top site 
 4. Use open source Chicago Crime data to provide the user with additional crime data
 
-### Top Sites from FourSquare Website
+## Top Sites from FourSquare Website
 
 Although FourSquare provides a comprehensive API, one of the things that API does not easily support is a mechanism to directly extract the top N sites / venues in a given city. This data, however, is easily available directly from the FourSquare Website. To do this simply go to www.foursquare.com, enter the city of your choise and select Top Picks from _I'm Looking For_ selection field.
 
@@ -125,7 +125,7 @@ A sample of the extracted data is given below:
 
 
 
-###Supplemental Geographical Data
+## Supplemental Geographical Data
 
 Using the `id` field extracted from the HTML it is then possible to get further supplemental geographical details about each of the top sites from FourSquare using the following sample API call:
 
@@ -165,12 +165,18 @@ The requests returns a JSON object which can then be queried for the details req
 From this the following attributes are extracted:
 
 * Venue Address
+
 * Venue Postalcode
+
 * Venue City
+
 * Venue Latitude
+
 * Venue Longitude
 
-### Final FourSquare Top Sites Data
+   
+
+## Final FourSquare Top Sites Data
 
 A sample of the final FourSquare Top Sites data is shown below:
 
@@ -184,7 +190,7 @@ A sample of the final FourSquare Top Sites data is shown below:
 
 We are now ready to get the top 5 restaurents within 250 meters of each of the top sites.
 
-### FourSquare Restaurent Recommendation Data
+## FourSquare Restaurent Recommendation Data
 
 Using the the list of all `id` values in the Top Sites DataFrame and the FourSquare `categoryID` that represents all food venues we now search for restaurants within a 500 meter radius.
 
