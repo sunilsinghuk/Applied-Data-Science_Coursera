@@ -1,7 +1,5 @@
 
 
-
-
 # Capstone Project - The Battle of Neighborhoods
 
 This file, and other associated files, make up my contribution to the final Peer Reviewed Assignment for the Coursera Capstone Project for Applied Data Science Capstone. This was my final module in the [IBM Data Science Professional Certificate](https://www.coursera.org/specializations/ibm-data-science-professional-certificate) programme.
@@ -76,7 +74,7 @@ Now that the conference is over the Data Sceintist can explore Chigago and feel 
 
 
 
-# Section 2: Methodology
+# Section 2: Data
 
 ## Data Description
 
@@ -540,6 +538,90 @@ Finally a heat map of the August crimes was created:
 ![image-20181001162714277](./capstone_images/heatmap.jpg)
 
 This reinforces the cluster chart where it can clearly be seen that the center of Chicago and the area around Oak Park have a high crime rate occurrence. It will be interesting to see later if there is a high probability of crime in these areas if one of the top listed venues are located in these areas.
+
+
+
+# Section 3: Methodology
+
+Methodology section which represents the main component of the report where you discuss and describe any exploratory data analysis that you did, any inferential statistical testing that you performed, and what 
+machine learnings were used and why.
+
+## Exploratory Data Analysis
+
+The first round of eploratory analysis was to examine the Top Venues and Restaurants Dataframes to determine if there was any correlation between variables.
+
+Unforfunately the only data attributes that could be analysed were the Latitude and Longitude attributes and their relationship to the venuse score. Top Venues was examined First.
+
+![image-20181001162714277](./capstone_images/topven_lat.png)
+
+
+
+![image-20181001162714277](./capstone_images/topven_lon.png)
+
+Although nothing obvious to would appear that the top venues are centered arounf the `-87.65` Longitude.
+
+the Restaurant data was examined next.
+
+![image-20181001162714277](./capstone_images/rest_lat.png)
+
+![image-20181001162714277](./capstone_images/rest_lon.png)
+
+Unsuprisingly the Restaurant data is also clustered arounf the  `-87.65` Longitude given that Restaurants with 500 meters of the top venues were selected.
+
+
+
+## Further Visualisation
+
+Because it was not possible, because of the categorical nature of the data, to do more details inferential statistical analysis of the data further exploratory visualisation was undertaken. It shouldbe noted, however, that this visualisation would actually become part of the final presentation to the traveller. It would be important for the traveller to see the crime, venue and restaurant data presented in this manner.
+
+###Display each of the Top 10 Venues
+
+In this section a preview of the type of data that will be displayed to a user of the proposed solution is shown.
+
+For each of the Top 10 Venues:
+
+1. All crimes within 750 meters of the venue are added to a dataframe
+2. All restaurants associated with the venue are added to a dataframe
+3. A folium Map is created centered on the venue
+4. A heatmap of the crimes in the area are overlayed
+5. the venue is marked on the map
+6. The top 10 scored restaurants are marked on the map
+
+It is possible to fully automate this through full iteration but in order to clearly show each of the 10 maps each is generated manually (to a degree).
+
+A couple of example of the generated maps are shown below. 
+
+The first map below is the top rated venue _Millennium Park_. The location of the attraction and the 10 top rated venues are clearly shown. The Top Venue is shown using a blue marker, the restaurants are shown using a red marker. Also shown is the heatmap of cimes within 750 meters over the course of the entire previous year. The hotter, redder, the heatmap the more crimes there are recorded. Some Restaurants, for example the two located at the top left of the map, appear to be in areas where crime is quite frequent. On the other hand others are in areas which are obviously not as crime ridden.
+
+![image-20181001162714277](./capstone_images/venue_01.jpg)
+
+
+
+The second map is for _The Music Box Theatre_. It is immediately apparent that the crime rate in this area of the city is much lower:
+
+![image-20181001162714277](./capstone_images/venue_02.jpg)
+
+Visiting this venue appears to be a much safer option with very little crime recored in the immediate vicinity. Also shown in the map above is the extra details provided about each Restaurant. The restaurant name, *Tango Sur*, it's food type _Argentinian_, and its average score are given.
+
+## Modelling
+
+Before we start modelling we need to prepare the data frame to include only mumerical data and by removing unneeded columns.
+
+Rather than removing colums from `df_crimes` a new `df_features` DataFrame was created with just the required columns. This `df_features` DataFrame was then processed to remove Categorical Data Types and replace them with One Hot encoding. Finally the Dependant Variables were Normalised.
+
+Five model type were then chosen to be evaluated:
+
+1. K Nearest Neighbours
+2. Decision Trees
+3. Logestic Regression
+4. Naive Bayes
+5. Decision Forest using a Random Forest
+
+There was one significant issue with the crimes data frame as acquired. Although multiclass classification / prediction is possible, the crimes dataset is unbalanced. Modelling algorithms work best when there is approximately an equal number of samples for each class for example [The Curse of Class Imbalance](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=2ahUKEwjrqamF2YbeAhWkK8AKHXTjBhwQFjAAegQICRAC&url=https%3A%2F%2Feprint.iacr.org%2F2018%2F476.pdf&usg=AOvVaw35P8S6qqW4iZXU35rzUR5u) and [Class imbalance and the curse of minority hubs](https://www.sciencedirect.com/science/article/abs/pii/S0950705113002682).
+
+For this reason the modelling task was turned into a simple binary classification task by only modelling based on the top two most occuring crimes. Also, for each model development 10 Fold Cross Validation was used to ensure the best results were achieved.
+
+
 
 
 
