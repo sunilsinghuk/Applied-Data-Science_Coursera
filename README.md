@@ -1,22 +1,40 @@
 
 
+
+
+
+
 # Capstone Project - The Battle of Neighborhoods
 
 This file, and other associated files, make up my contribution to the final Peer Reviewed Assignment for the Coursera Capstone Project for Applied Data Science Capstone. This was my final module in the [IBM Data Science Professional Certificate](https://www.coursera.org/specializations/ibm-data-science-professional-certificate) programme.
 
 For reference I include the original definition for each part of the assignment.
 
-## Part 1
+## Part 1 [Week 1]
 
 Clearly define a problem or an idea of your choice, where you would need to leverage the Foursquare location data to solve or execute. Remember that data science problems always  target an audience and are meant to help a group of stakeholders solve a  problem, so make sure that you explicitly describe your audience and  why they would care about your problem.
 
 This submission will eventually become your **Introduction / Business Problem**  section in your final report. So I recommend that you push the report  (having your Introduction/Business Problem section only for now) to your  Github repository and submit a link to it.
 
-## Part 2
+## Part 2 [Week 1]
 
 Describe the data that you will be  using to solve the problem or execute your idea. Remember that you will  need to use the Foursquare location data to solve the problem or execute  your idea. You can absolutely use other datasets in combination with  the Foursquare location data. So make sure that you provide adequate  explanation and discussion, with examples, of the data that you will be  using, even if it is only Foursquare location data.
 
 This submission will eventually become your **Data** section in your final report. So I recommend that you push the report (having your **Data** section) to your Github repository and submit a link to it.
+
+## Part 3 [Week 2]
+
+In  this week, you will continue working on your capstone project. Please  remember by the end of this week, you will need to submit the following:
+
+1. A full report consisting of all of the following components (**15 marks**):
+   * Introduction where you discuss the business problem and who would be interested in this project.
+   * Data where you describe the data that will be used to solve the problem and the source of the data.
+   * Methodology  section which represents the main component of the report where you  discuss and describe any exploratory data analysis that you did, any  inferential statistical testing that you performed, and what machine  learnings were used and why.
+   * Results section where you discuss the results.
+   * Discussion section where you discuss any observations you noted and any recommendations you can make based on the results.
+   * Conclusion section where you conclude the report.
+2. A link to your Notebook on your Github repository pushed showing your code. (**15 marks**). 
+3. Your choice of a presentation or blogpost. (**10 marks**)
 
 
 
@@ -609,6 +627,75 @@ Before we start modelling we need to prepare the data frame to include only mume
 
 Rather than removing colums from `df_crimes` a new `df_features` DataFrame was created with just the required columns. This `df_features` DataFrame was then processed to remove Categorical Data Types and replace them with One Hot encoding. Finally the Dependant Variables were Normalised.
 
+The Features DataFrame looked like this:
+
+`df_features.head()`
+
+| latitude  | longitude  | hour_0 | hour_1 | hour_2 | hour_3 | hour_4 | hour_5 | hour_6 | hour_7 | ...  | January | July | June | March | May  | November | October | September | ward | crimes  |
+| --------- | ---------- | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ---- | ------- | ---- | ---- | ----- | ---- | -------- | ------- | --------- | ---- | ------- |
+| 41.780946 | -87.621995 | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | ...  | 0       | 0    | 0    | 0     | 0    | 0        | 0       | 0         | 20.0 | THEFT   |
+| 41.965404 | -87.736202 | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | ...  | 0       | 0    | 0    | 0     | 0    | 0        | 0       | 0         | 39.0 | THEFT   |
+| 41.895946 | -87.629760 | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | ...  | 0       | 0    | 0    | 0     | 0    | 0        | 0       | 0         | 42.0 | BATTERY |
+| 41.867081 | -87.619004 | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | ...  | 0       | 0    | 0    | 0     | 0    | 0        | 0       | 0         | 2.0  | THEFT   |
+| 41.769917 | -87.663955 | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | ...  | 0       | 0    | 0    | 0     | 0    | 0        | 0       | 0         | 17.0 | THEFT   |
+
+5 rows × 47 columns
+
+`df_featues.dtypes`
+
+```python
+latitude     float64
+longitude    float64
+hour_0         uint8
+hour_1         uint8
+hour_2         uint8
+hour_3         uint8
+hour_4         uint8
+hour_5         uint8
+hour_6         uint8
+hour_7         uint8
+hour_8         uint8
+hour_9         uint8
+hour_10        uint8
+hour_11        uint8
+hour_12        uint8
+hour_13        uint8
+hour_14        uint8
+hour_15        uint8
+hour_16        uint8
+hour_17        uint8
+hour_18        uint8
+hour_19        uint8
+hour_20        uint8
+hour_21        uint8
+hour_22        uint8
+hour_23        uint8
+Friday         uint8
+Monday         uint8
+Saturday       uint8
+Sunday         uint8
+Thursday       uint8
+Tuesday        uint8
+Wednesday      uint8
+April          uint8
+August         uint8
+December       uint8
+February       uint8
+January        uint8
+July           uint8
+June           uint8
+March          uint8
+May            uint8
+November       uint8
+October        uint8
+September      uint8
+ward         float64
+crimes        object
+dtype: object
+```
+
+
+
 Five model type were then chosen to be evaluated:
 
 1. K Nearest Neighbours
@@ -619,23 +706,262 @@ Five model type were then chosen to be evaluated:
 
 There was one significant issue with the crimes data frame as acquired. Although multiclass classification / prediction is possible, the crimes dataset is unbalanced. Modelling algorithms work best when there is approximately an equal number of samples for each class for example [The Curse of Class Imbalance](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=2ahUKEwjrqamF2YbeAhWkK8AKHXTjBhwQFjAAegQICRAC&url=https%3A%2F%2Feprint.iacr.org%2F2018%2F476.pdf&usg=AOvVaw35P8S6qqW4iZXU35rzUR5u) and [Class imbalance and the curse of minority hubs](https://www.sciencedirect.com/science/article/abs/pii/S0950705113002682).
 
-For this reason the modelling task was turned into a simple binary classification task by only modelling based on the top two most occuring crimes. Also, for each model development 10 Fold Cross Validation was used to ensure the best results were achieved.
+For this reason the modelling task was turned into a simple binary classification task by only modelling based on the top two most occuring crimes. For each model development 10 Fold Cross Validation was used to ensure the best results were achieved and a Grid Search approach was used to determine the best setting for each of the models:
+
+###K Nearest Neighbours
+
+K Nearest Neighbor(KNN) is a very simple, easy to understand, versatile and one of the topmost machine learning algorithms. KNN is used in the variety of applications such as finance, healthcare, political science, handwriting detection, image recognition and video recognition. KNN algorithm is used for both classification and regression problems.
+
+KNN Model was quick to execute and through the process of evaluation it was discovered the `K = 9` gave the best results
+
+![image-20181001162714277](./capstone_images/knn.png)
+
+KNN was not particularly fast taking approximately 10 minutes per model.
+
+```
+Heighbours:  8   2018-10-08 15:52:13.421456
+Heighbours:  9   2018-10-08 16:00:51.217053
+Heighbours:  10   2018-10-08 16:10:11.199822
+Heighbours:  11   2018-10-08 16:21:14.573951
+Heighbours:  12   2018-10-08 16:31:42.417515
+```
+
+### Decision Tree
+
+A decision tree is a decision support tool that uses a tree-like graph or model of decisions and their possible consequences, including chance event outcomes, resource costs, and utility.
+
+The Decision Tree model was particularly fast taking only 10 seconds per model. This meant that it was easy to try multiple different parameters. A tree depth of 15 gave the best model performance:
+
+![image-20181001162714277](./capstone_images/dt.png)
+
+### Logistic Regression & Naive Bayes
+
+Logistic Regression and Naive Bayes models did not return any models with an accuracy greater that 0.61.
+
+### Decision Forest using a Random Forest
+
+**Random forests** or **random decision forests** are an ensemble learning method for classification, regression and other tasks, that operate by constructing a multitude of decision trees at training time and outputting the class that is the mode of the classes (classification) or mean prediction (regression) of the individual trees. Random decision forests correct for decision trees' habit of overfitting to their training set.
+
+Each model took approximately 40 seconds to create and 22 estimators was found to give the best model accuracy.
+
+```
+Estimator:  20   2018-10-08 15:46:03.008463
+Estimator:  21   2018-10-08 15:46:39.961439
+Estimator:  22   2018-10-08 15:47:19.027772
+Estimator:  23   2018-10-08 15:47:59.712219
+```
+
+![image-20181001162714277](./capstone_images/rf.png)
+
+### Best Model
+
+Using the the crime data for the top two occuring crimes each of the top performing models where further evaluated to to determine which model performed the best using F1-Score, Jaccard Score and Log Loss.
+
+Randon forest was determined to be the best model.
+
+| Algorithm             | F1-Score | Jaccard  | LogLoss   |
+| --------------------- | -------- | -------- | --------- |
+| KNN                   | 0.735110 | 0.700167 | 10.355988 |
+| Decision Tree         | 0.739844 | 0.722507 | 9.584343  |
+| Bernoulli Naive Bayes | 0.670262 | 0.610028 | 13.469334 |
+| Logistic Regression   | 0.692493 | 0.618332 | 13.182555 |
+| Random Forest         | 0.996330 | 0.995866 | 0.142790  |
 
 
+
+## Best Model- Detailed Examination
+
+Ramdom Forest is the best model scoring highest in all measurements, F1-Score, Jaccard and Log Loss. Let's now create a new model. The September crime data will become the unseen test data for the final model.
+
+The Top Two Crimes Feature Features Dataframe was created again and split into Training Data, everything except December, and Test Data, September.
+
+### Predict the Final Performance of the Model
+
+The F1-Score and Jaccard Score were calculated
+
+```
+# Predict yhat using X_Test
+yhat = Forest_model_final.predict(X_Test)
+    
+# Measure the Jaccard Score of the final Model
+jaccard_final = metrics.jaccard_similarity_score(y_Test, yhat)
+print('Jaccard Score', jaccard_final)
+    
+f1 = metrics.f1_score(y_Test, yhat, average=None)
+print('F1-Score of each class', f1)
+```
+
+```
+Jaccard Score 0.6462361168243521
+F1-Score of each class [0.60997732 0.67632668]
+```
+
+### What are the important Features
+
+The most important, or informative, features were then determined. The top ten are shown:
+
+```python
+Feature ranking:
+1. feature 0 (0.270578)
+2. feature 1 (0.257083)
+3. feature 45 (0.135026)
+4. feature 38 (0.012409)
+5. feature 39 (0.012210)
+6. feature 43 (0.011945)
+7. feature 34 (0.011605)
+8. feature 32 (0.011600)
+9. feature 41 (0.011550)
+10. feature 37 (0.011341)
+```
+
+This shows that the most predictive models are:
+
+1. Latitude
+2. Longitude
+3. Ward
+
+After these the day and the month of the crime are weak predicters at ~1.1%. The other features, particulraly the hour the crime took place, are hardly predictive at all. A plot of this is shown below:
+
+![image-20181001162714277](./capstone_images/features.png)
+
+## Results & Prediction
+
+Let's review the goals of this project.
+
+The idea for the Capstone Project is to show that when driven by venue and location data from FourSquare, backed up with open source crime data, that it is possible to present the cautious and nervous traveller with a list of attractions to visit supplementd with a graphics showing the occurance of crime in the region of the venue.
+
+A high level approach is as follows:
+
+- [x] The travellers decides on a city location [in this case Chicago]
+- [x] The ForeSquare website is scrapped for the top venues in the city
+- [x] From this list of top venues the list is augmented with additional grographical data
+- [x] Using this additional geographical data the top nearby restaurents are selects
+- [x] The historical crime within a predetermined distance of all venues are obtained
+- [x] A map is presented to the to the traveller showing the selected venues and crime statistics of the area. 
+- [ ] The future prediction of a crime happening near or around the selected top sites is also presented to the user
+
+So all goals have been achieved except the final one. In this Results and Predictions Section this goal is addressed.
+
+The purpose of this project was to see if crime can be predicted. However, the nature of the dataset, particularly the number of different crimes and the unbalanced nature of the dataset, makes it difficult to predict what crime will predict and when. We can, however, repurpose the Crimes DataFrame by spliting the dataset into two distinct balanced sets and randonly assigning to `0` to represent no crime and `1` to present a crime happening. The data set looked like this:
+
+| latitude  | longitude  | hour_0 | hour_1 | hour_2 | hour_3 | hour_4 | hour_5 | hour_6 | hour_7 | ...  | July | June | March | May  | November | October | September | random_crimes |
+| --------- | ---------- | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ---- | ---- | ---- | ----- | ---- | -------- | ------- | --------- | ------------- |
+| 41.897895 | -87.760744 | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | ...  | 0    | 0    | 0     | 0    | 0        | 0       | 0         | 1             |
+| 41.798635 | -87.604823 | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | ...  | 0    | 0    | 0     | 0    | 0        | 0       | 0         | 1             |
+| 41.780946 | -87.621995 | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | ...  | 0    | 0    | 0     | 0    | 0        | 0       | 0         | 1             |
+| 41.965404 | -87.736202 | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | ...  | 0    | 0    | 0     | 0    | 0        | 0       | 0         | 0             |
+| 41.850673 | -87.735597 | 0      | 0      | 0      | 0      | 0      | 0      | 0      | 0      | ...  | 0    | 0    | 0     | 0    | 0        | 0       | 0         | 1             |
+
+5 rows × 46 columns
+
+The differnce between this and earlier modelling is that the `Ward` attribute had to be removed for reason which will become obvious presently.
+
+### Test Data
+
+The test data was contructed from the the Top Venues Data Frame and the Restaurants Dataframe as follows:
+
+1. The two dataframes were joined together to form a single dataframe. The venue or restaurant name and the latitude and longitude attributes were added.
+2. Duplicate entries were dropped as some restaurants appeared multiple times in the dataframe
+3. Next a random date and time was assigned to each venue.
+4. The date was then split into Hour, Day of Week, Month and Year as described above
+5. The data was finally prepared for prediction by applying One Hot encoding and then extracted into a new dataframe that match the format used to create the model.
+6. y^ (y_hat) or the predictions were then made
+
+
+
+The results of the predistions areshown below
+
+`yhat`
+
+```python
+array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+       0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0,
+       0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       1, 0])
+```
+
+And the Predictions were readded to the data (as it was before One Hot encoding was applied).
+
+`df_final.head(10)`
+
+| name                                         | latitude  | longitude  | date                | prediction |
+| -------------------------------------------- | --------- | ---------- | ------------------- | ---------- |
+| Millennium Park                              | 41.882699 | -87.623644 | 2018-10-24 05:31:00 | 0          |
+| Chicago Lakefront Trail                      | 41.967053 | -87.646909 | 2018-01-24 09:33:00 | 0          |
+| The Art Institute of Chicago                 | 41.879665 | -87.623630 | 2018-01-21 02:09:00 | 0          |
+| The Chicago Theatre                          | 41.885578 | -87.627286 | 2018-06-16 14:15:00 | 0          |
+| Symphony Center (Chicago Symphony Orchestra) | 41.879275 | -87.624680 | 2018-02-12 01:57:00 | 0          |
+| Grant Park                                   | 41.873407 | -87.620747 | 2018-10-19 12:15:00 | 1          |
+| Chicago Riverwalk                            | 41.887280 | -87.627217 | 2018-04-21 13:30:00 | 0          |
+| Garfield Park Conservatory                   | 41.886259 | -87.717177 | 2018-01-07 00:32:00 | 0          |
+| Music Box Theatre                            | 41.949798 | -87.663938 | 2018-11-03 21:26:00 | 0          |
+| Nature Boardwalk                             | 41.918102 | -87.633283 | 2018-05-18 15:23:00 | 1          |
+
+## Visualisation of Predictions
+
+Of the top ten venues 8 were identified as potentially dangerous to visit and 2 were deems safe. As there is no data to compare the predictions against the best way we will visualise the data again.
+
+We will look at the following 4 venues:
+
+1. `Millennium Park     41.882699    -87.623644`
+2. `The Chicago Theatre 41.885578    -87.627286`
+3. `Grant Park          41.873407    -87.620747`
+4. `Nature Boardwalk    41.918102    -87.633283`
+
+The Distance Dataframe is recreated again but this time all crimes are included.
+
+The first two images are are of Millennium Park and of The Chicago Theatre. Both of these venues were identified as likely to be susceptible to crime.
+
+![image-20181001162714277](./capstone_images/final_01.jpg)
+
+![image-20181001162714277](./capstone_images/final_02.jpg)
+
+The next images are fromGrant Hill and Nature Boardwalk. Although both show signs of criminal activity, both have far less than Millennium Park and The Chicago Theatre.
+
+![image-20181001162714277](./capstone_images/final_03.jpg)
+
+![image-20181001162714277](./capstone_images/final_04.jpg)
+
+
+
+# Conclusions and Discussions
+
+Although all of the goals of this project were met there is definitely room for further improvement and development as noted below. However, the goals of the project were met and, with some more work, could easily be devleoped into a fully phledged application that could support the cautious traveller in an unknown location.
+
+Of the contributing data the Chicago Crime data is the one where more data would be good to have. Also not every city in the world makes this data freely available so that is a drawback.
+
+FourSquare proved to be a good source of data but frustrating at times. Despite having a Developer account I regularly exceeded my hourly limit locking me out for the day. This is why Pickle was used to store the captured data. 
 
 
 
 # Further Development
 
-Best time to visit each venue
+The following are suggestions how this project could b efurther developed:
 
-Suggestions for morning, afternoon, evening and night time
+1. Best time to visit each venue
+2. Suggestions for morning, afternoon, evening and night time
 
-Daily itineraries
+3. Daily itineraries
 
-Route planning and transportation
+4. Route planning and transportation
 
-Time lapse of the crime in the area of the venue
+5. Time lapse of the crime in the area of the venue
 
-Favourite dining preferences could be used to choose the restaurants
+6. Favourite dining preferences could be used to choose the restaurants
+
+
+
+
+# Github
+
+All source for this project is available on Github.
+
+https://github.com/davidcolton/Coursera_Capstone
 
