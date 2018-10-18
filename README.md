@@ -6,6 +6,8 @@
 
 # Capstone Project - The Battle of Neighborhoods
 
+[TOC]
+
 This file, and other associated files, make up my contribution to the final Peer Reviewed Assignment for the Coursera Capstone Project for Applied Data Science Capstone. This was my final module in the [IBM Data Science Professional Certificate](https://www.coursera.org/specializations/ibm-data-science-professional-certificate) programme.
 
 For reference I include the original definition for each part of the assignment.
