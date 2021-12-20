@@ -965,5 +965,5 @@ The following are suggestions how this project could b efurther developed:
 
 All source for this project is available on Github.
 
-https://github.com/davidcolton/Coursera_Capstone
+https://github.com/sunilsinghuk/Applied-Data-Science_Coursera
 
